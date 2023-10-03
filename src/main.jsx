@@ -13,11 +13,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             colorPrimary: "#2C3531",
             colorPrimaryHover: "#2C3531",
             borderRadius: "2px",
-            colorPrimaryActive: "#2C3531",
           },
         },
         token: {
           borderRadius: "2px",
+          colorPrimary: "#2C3531",
         },
       }}
     >

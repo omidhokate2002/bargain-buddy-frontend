@@ -21,6 +21,7 @@ input:focus {
 	box-shadow: none;
 }
 
-buttoncc {
+button {
 	height: 45px !important;
+	box-shadow: none !important;
 }
