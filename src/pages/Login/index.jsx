@@ -1,6 +1,8 @@
-import { Form, Button, Input } from "antd";
+/* eslint-disable react/no-unescaped-entities */
+import { Form, Button, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import Divider from "../../components/Divider";
+import { LoginUser } from "../../apicalls/users";
 
 const rules = [
   {
@@ -10,8 +12,18 @@ const rules = [
 ];
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log("Success", values);
+  const onFinish = async (values) => {
+    try {
+      const response = await LoginUser(values);
+      if (response.success) {
+        message.success(response.message);
+        localStorage.setItem("token", response.token);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
   return (
     <div className="h-screen bg-primary flex justify-center items-center">
