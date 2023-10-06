@@ -17,6 +17,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       token: {
         borderRadius: "2px",
         colorPrimary: "#2C3531",
+        // Message background color
+        messageBg: "#293846",
+        // Message text color
+        messageTextColor: "#ffffff",
+        // Message border radius
+        messageBorderRadius: "4px",
+        // Message icon font size
+        messageIconFontSize: "20px",
       },
     }}
   >
