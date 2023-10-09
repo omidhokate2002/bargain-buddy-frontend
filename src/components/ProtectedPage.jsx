@@ -4,25 +4,39 @@ import { useState, useEffect } from "react";
 import { message } from "antd";
 import { GetCurrentUser } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../redux/loaderSlice";
 
 const ProtectedPage = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validateToken = async () => {
     try {
+      dispatch(setLoader(true));
       const response = await GetCurrentUser();
+      dispatch(setLoader(false));
       if (response.success) {
         setUser(response.data);
       } else {
+        const errorMessage = response.message;
+        // Check if the error message indicates an expired token
+        if (errorMessage === "jwt expired") {
+          // Token has expired, remove it from local storage
+          localStorage.removeItem("token");
+        }
+
         navigate("/login");
-        message.error(response.message);
+        message.error(errorMessage);
       }
     } catch (error) {
+      dispatch(setLoader(false));
       navigate("/login");
       message.error(error.message);
     }
   };
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       validateToken();
@@ -31,13 +45,34 @@ const ProtectedPage = ({ children }) => {
     }
   }, []);
   return (
-    <div>
-      {user && (
-        <div className="p-5">
-          {user.name} {children}
+    user && (
+      <div>
+        {/* Header */}
+        <div className="bg-primary p-5">
+          <div className="flex justify-between items-center ">
+            <h1 className="text-3xl text-white font-bold">Bargain Buddy</h1>
+            <div className="bg-white rounded-full py-2 px-5 flex gap-2 items-center">
+              <i className="ri-user-2-line text-primary font-semibold cursor-pointer"></i>
+              <span className="text-primary font-semibold cursor-pointer uppercase">
+                {user.name}
+              </span>
+              <i
+                className="ri-logout-circle-r-line text-primary text-lg ml-10 cursor-pointer"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  navigate("/login");
+                }}
+              ></i>
+            </div>
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* Body */}
+        <div className="container mx-auto mt-5 p-6 bg-white rounded-lg shadow-lg">
+          {children}
+        </div>
+      </div>
+    )
   );
 };
 
