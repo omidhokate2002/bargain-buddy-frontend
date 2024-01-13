@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { message } from "antd";
 import { GetCurrentUser } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../redux/loaderSlice";
+import { setUser } from "../redux/userSlice";
 
 const ProtectedPage = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const { user } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,7 +19,7 @@ const ProtectedPage = ({ children }) => {
       const response = await GetCurrentUser();
       dispatch(setLoader(false));
       if (response.success) {
-        setUser(response.data);
+        dispatch(setUser(response.data));
       } else {
         const errorMessage = response.message;
         // Check if the error message indicates an expired token
@@ -53,7 +54,12 @@ const ProtectedPage = ({ children }) => {
             <h1 className="text-3xl text-white font-bold">Bargain Buddy</h1>
             <div className="bg-white rounded-full py-2 px-5 flex gap-2 items-center">
               <i className="ri-user-2-line text-primary font-semibold cursor-pointer"></i>
-              <span className="text-primary font-semibold cursor-pointer uppercase">
+              <span
+                className="text-primary font-semibold cursor-pointer uppercase"
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
                 {user.name}
               </span>
               <i

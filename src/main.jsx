@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             colorPrimary: "#2C3531",
             colorPrimaryHover: "#2C3531",
             borderRadius: "2px",
+            boxShadow: "none",
           },
         },
         token: {

@@ -36,10 +36,20 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
+    // Check if the token is expired
+    const token = localStorage.getItem("token");
+    if (token) {
+      const tokenData = JSON.parse(atob(token.split(".")[1])); // Decode the middle part of the token (payload)
+      const expirationTime = tokenData.exp * 1000; // Convert expiration time to milliseconds
+
+      if (Date.now() > expirationTime) {
+        // Token is expired, remove it from local storage
+        localStorage.removeItem("token");
+      } else {
+        navigate("/");
+      }
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="h-screen bg-primary flex justify-center items-center">
