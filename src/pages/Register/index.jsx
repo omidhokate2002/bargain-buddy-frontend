@@ -4,7 +4,7 @@ import Divider from "../../components/Divider";
 import { RegisterUser } from "../../apicalls/users";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/loaderSlice";
+import { SetLoader } from "../../redux/loaderSlice";
 
 const rules = [
   {
@@ -18,17 +18,17 @@ const Register = () => {
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
-      dispatch(setLoader(true));
+      dispatch(SetLoader(true));
       const response = await RegisterUser(values);
       navigate("/login");
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       if (response.success) {
         message.success(response.message);
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       message.error(error.message);
     }
   };

@@ -5,8 +5,8 @@ import { message } from "antd";
 import { GetCurrentUser } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoader } from "../redux/loaderSlice";
-import { setUser } from "../redux/userSlice";
+import { SetLoader } from "../redux/loaderSlice";
+import { SetUser } from "../redux/userSlice";
 
 const ProtectedPage = ({ children }) => {
   const { user } = useSelector((state) => state.users);
@@ -15,11 +15,11 @@ const ProtectedPage = ({ children }) => {
 
   const validateToken = async () => {
     try {
-      dispatch(setLoader(true));
+      dispatch(SetLoader(true));
       const response = await GetCurrentUser();
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       if (response.success) {
-        dispatch(setUser(response.data));
+        dispatch(SetUser(response.data));
       } else {
         const errorMessage = response.message;
         // Check if the error message indicates an expired token
@@ -32,7 +32,7 @@ const ProtectedPage = ({ children }) => {
         message.error(errorMessage);
       }
     } catch (error) {
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       navigate("/login");
       message.error(error.message);
     }

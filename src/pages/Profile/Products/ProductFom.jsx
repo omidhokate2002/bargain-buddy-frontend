@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Col, Form, Input, Modal, Row, Tabs } from "antd";
+import { Col, Form, Input, Modal, Row, Tabs, message, Checkbox } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { SetLoader } from "../../../redux/loaderSlice"
+import { AddProduct } from "../../../apicalls/product";
 
 const additionalThings = [
   {
@@ -25,9 +28,26 @@ const additionalThings = [
 const rules = [{ required: true, message: "Required" }];
 
 const ProductForm = ({ showProductForm, setShowProductForm }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
   const formRef = useRef(null);
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    try {
+      values.seller = user._id;
+      values.status = "pending";
+      dispatch(SetLoader(true))
+      const response = await AddProduct(values);
+      dispatch(SetLoader(false))
+      if (response.success) {
+        message.success(response.message)
+        setShowProductForm(false)
+      } else {
+        message.error(response.message)
+      }
+    } catch (error) {
+      dispatch(SetLoader(false))
+      message.error(error.message);
+    }
   };
   return (
     <Modal
@@ -77,24 +97,16 @@ const ProductForm = ({ showProductForm, setShowProductForm }) => {
                 return (
                   <Form.Item
                     key={item.name}
-                    label={item.label}
+                    // label={item.label}
                     name={item.name}
-                    initialValue={false}
+                    valuePropName="checked"
                   >
-                    <Input
-                      type="checkbox"
-                      value={item.name}
-                      onChange={(e) => {
-                        formRef.current.setFieldsValue({
-                          [item.name]: e.target.checked,
-                        });
-                      }}
-                      checked={formRef.current?.getFieldValue(item.name)}
-                    />
+                    <Checkbox>{item.label}</Checkbox>
                   </Form.Item>
                 );
               })}
             </div>
+
           </Form>
         </Tabs.TabPane>
         <Tabs.TabPane tab="Images" key="2">

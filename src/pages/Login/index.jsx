@@ -5,7 +5,7 @@ import Divider from "../../components/Divider";
 import { LoginUser } from "../../apicalls/users";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/loaderSlice";
+import { SetLoader } from "../../redux/loaderSlice";
 
 const rules = [
   {
@@ -19,9 +19,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
-      dispatch(setLoader(true));
+      dispatch(SetLoader(true));
       const response = await LoginUser(values);
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       if (response.success) {
         message.success(response.message);
         localStorage.setItem("token", response.data);
@@ -30,7 +30,7 @@ const Login = () => {
         throw new Error(response.message);
       }
     } catch (error) {
-      dispatch(setLoader(false));
+      dispatch(SetLoader(false));
       message.error(error.message);
     }
   };
