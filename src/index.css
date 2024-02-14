@@ -1,34 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Eczar&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Eczar&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Eczar', serif !important;
-	/* color: #373737; */
-	font-size: 16px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Eczar", serif !important;
+  /* color: #373737; */
+  font-size: 16px;
 }
 
 input,
 select,
 textarea {
-	min-height: 45px !important;
-	border: 1px solid #116466 !important;
-	width: 100% !important;
+  min-height: 45px !important;
+  border: 1px solid #116466 !important;
+  width: 100% !important;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-	outline: none !important;
-	border: 1px solid #116466 !important;
-	box-shadow: none !important;
+  outline: none !important;
+  border: 1px solid #116466 !important;
+  box-shadow: none !important;
 }
 
 button {
-	height: 45px !important;
-	box-shadow: none !important;
+  height: 45px !important;
+  box-shadow: none !important;
+}
+
+table {
+  border: #a1a1a1 1px solid !important;
+  border-radius: 2px;
+}
+
+i {
+  font-size: 20px;
 }

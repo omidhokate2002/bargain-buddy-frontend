@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import ProtectedPage from "./components/ProtectedPage";
 import Spinner from "./components/Spinner";
 import { useSelector } from "react-redux";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/index.jsx";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);

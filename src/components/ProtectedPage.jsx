@@ -51,7 +51,9 @@ const ProtectedPage = ({ children }) => {
         {/* Header */}
         <div className="bg-primary p-5">
           <div className="flex justify-between items-center ">
-            <h1 className="text-3xl text-white font-bold">Bargain Buddy</h1>
+            <h1 className="text-3xl text-white font-bold cursor-pointer" onClick={() => {
+              navigate("/");
+            }}>Bargain Buddy</h1>
             <div className="bg-white rounded-full py-2 px-5 flex gap-2 items-center">
               <i className="ri-user-2-line text-primary font-semibold cursor-pointer"></i>
               <span
@@ -63,7 +65,7 @@ const ProtectedPage = ({ children }) => {
                 {user.name}
               </span>
               <i
-                className="ri-logout-circle-r-line text-primary text-lg ml-10 cursor-pointer"
+                className="ri-logout-circle-r-line text-primary text-lg ml-5 cursor-pointer"
                 onClick={() => {
                   localStorage.removeItem("token");
                   navigate("/login");
