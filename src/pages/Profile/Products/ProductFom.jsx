@@ -25,7 +25,7 @@ const additionalThings = [
   },
 ];
 
-const rules = [{ required: true, message: "Required" }];
+const rules = [{ required: true, message: "required" }];
 
 const ProductForm = ({ showProductForm, setShowProductForm }) => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ProductForm = ({ showProductForm, setShowProductForm }) => {
         message.success(response.message)
         setShowProductForm(false)
       } else {
-        message.error(response.message)
+        throw new Error(response.message);
       }
     } catch (error) {
       dispatch(SetLoader(false))
